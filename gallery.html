@@ -159,6 +159,65 @@
       .photo-grid { grid-template-columns: 1fr; }
       .photo-item:first-child { grid-column: span 1; }
     }
+
+    /* ── HAMBURGER ── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+      z-index: 200;
+    }
+    .hamburger span {
+      display: block;
+      width: 26px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px !important; }
+      .hamburger { display: flex; }
+      nav ul {
+        display: none !important;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(5,10,20,0.98);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 36px;
+        z-index: 150;
+      }
+      nav ul.open { display: flex !important; }
+      nav ul a { font-size: 1.4rem !important; letter-spacing: 4px; }
+      section { padding: 60px 20px !important; }
+      .about-grid { grid-template-columns: 1fr !important; gap: 30px !important; }
+      .about-img img { height: 380px !important; }
+      .services-grid { grid-template-columns: 1fr !important; }
+      .services-wrap { padding: 60px 20px !important; }
+      .contact-section { grid-template-columns: 1fr !important; padding: 60px 20px !important; gap: 40px !important; }
+      .service-block { grid-template-columns: 1fr !important; direction: ltr !important; gap: 24px !important; }
+      .service-block img { height: 280px !important; }
+      .photo-grid { grid-template-columns: 1fr 1fr !important; }
+      .photo-item:first-child { grid-column: span 2 !important; }
+      .video-grid { grid-template-columns: 1fr !important; }
+      footer { padding: 28px 20px !important; flex-direction: column !important; text-align: center !important; gap: 12px !important; }
+      .contact-strip { padding: 60px 20px !important; }
+      .form-row { grid-template-columns: 1fr !important; }
+      .page-hero { padding: 80px 20px 40px !important; }
+      .hero h1 { font-size: clamp(3rem, 15vw, 6rem) !important; }
+      .about-stat { gap: 20px !important; }
+    }
+
   </style>
 </head>
 <body>
@@ -248,5 +307,19 @@
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
   </script>
 
+  <script>
+    const hamburger = document.getElementById("hamburger");
+    const navMenu = document.getElementById("nav-menu");
+    hamburger.addEventListener("click", () => {
+      hamburger.classList.toggle("open");
+      navMenu.classList.toggle("open");
+    });
+    navMenu.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        hamburger.classList.remove("open");
+        navMenu.classList.remove("open");
+      });
+    });
+  </script>
 </body>
 </html>
