@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gallery | Premier DJ Productions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #0a1f5c;
+      --blue-mid: #1a3a8f;
+      --blue-light: #2255cc;
+      --gold: #c9a84c;
+      --white: #ffffff;
+      --black: #050a14;
+      --gray: #8a9ab5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--white); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 60px;
+      background: rgba(5,10,20,0.92); backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 3px; color: var(--white); text-decoration: none; }
+    .nav-logo span { color: var(--gold); }
+    nav ul { list-style: none; display: flex; gap: 40px; }
+    nav ul a { color: var(--gray); text-decoration: none; font-size: 0.75rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; transition: color 0.3s; }
+    nav ul a:hover, nav ul a.active { color: var(--white); }
+
+    .page-hero {
+      min-height: 40vh; display: flex; align-items: flex-end; padding: 80px 60px 60px;
+      background: linear-gradient(135deg, var(--black) 0%, var(--blue) 100%);
+      position: relative; overflow: hidden;
+    }
+    .page-hero::after {
+      content: 'GALLERY';
+      position: absolute; right: -20px; bottom: -40px;
+      font-family: 'Bebas Neue', sans-serif; font-size: 18rem;
+      color: rgba(255,255,255,0.03); line-height: 1; pointer-events: none;
+    }
+    .page-hero-content { position: relative; z-index: 1; }
+    .page-hero .label { font-size: 0.7rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+    .page-hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 8vw, 7rem); letter-spacing: 4px; line-height: 1; }
+
+    .gallery-section { padding: 80px 60px; max-width: 1400px; margin: 0 auto; }
+
+    .section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+    .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 5vw, 4rem); letter-spacing: 3px; margin-bottom: 16px; }
+    .section-divider { width: 50px; height: 3px; background: var(--blue-light); margin-bottom: 40px; }
+
+    /* PHOTO GRID */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 80px;
+    }
+
+    .photo-item {
+      position: relative; overflow: hidden; border-radius: 4px;
+      aspect-ratio: 4/3; cursor: pointer;
+    }
+
+    .photo-item:first-child { grid-column: span 2; aspect-ratio: 16/9; }
+
+    .photo-item img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.5s ease;
+      display: block;
+    }
+
+    .photo-item:hover img { transform: scale(1.06); }
+
+    .photo-item .overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(5,10,20,0.7) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.3s;
+      display: flex; align-items: flex-end; padding: 20px;
+    }
+
+    .photo-item:hover .overlay { opacity: 1; }
+
+    .photo-item .overlay span {
+      color: var(--white); font-size: 0.75rem;
+      font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+    }
+
+    /* VIDEO SECTION */
+    .video-label { margin-top: 20px; }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .video-item {
+      position: relative; border-radius: 4px; overflow: hidden;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .video-item video {
+      width: 100%; display: block;
+      max-height: 400px; object-fit: cover;
+    }
+
+    .video-caption {
+      padding: 16px 20px;
+      font-size: 0.8rem;
+      color: var(--gray);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    /* LIGHTBOX */
+    .lightbox {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,0.95); align-items: center; justify-content: center;
+    }
+    .lightbox.active { display: flex; }
+    .lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; border-radius: 4px; }
+    .lightbox-close {
+      position: absolute; top: 24px; right: 32px;
+      color: var(--white); font-size: 2rem; cursor: pointer;
+      background: none; border: none; line-height: 1;
+    }
+
+    footer {
+      background: var(--black); border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 40px 60px; display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 20px;
+    }
+    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 3px; color: var(--white); }
+    .footer-logo span { color: var(--gold); }
+    footer p { color: var(--gray); font-size: 0.75rem; }
+    footer a { color: var(--gray); text-decoration: none; font-size: 0.75rem; transition: color 0.3s; }
+    footer a:hover { color: var(--white); }
+
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      nav ul { gap: 20px; }
+      .page-hero { padding: 80px 24px 40px; }
+      .gallery-section { padding: 50px 24px; }
+      .photo-grid { grid-template-columns: 1fr 1fr; }
+      .photo-item:first-child { grid-column: span 2; }
+      .video-grid { grid-template-columns: 1fr; }
+      footer { padding: 30px 24px; flex-direction: column; text-align: center; }
+    }
+
+    @media (max-width: 600px) {
+      .photo-grid { grid-template-columns: 1fr; }
+      .photo-item:first-child { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Premier <span>DJ</span></a>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="gallery.html" class="active">Gallery</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <div class="label">See the Experience</div>
+      <h1>Gallery</h1>
+    </div>
+  </div>
+
+  <div class="gallery-section">
+
+    <!-- PHOTOS -->
+    <div class="section-label">Photos</div>
+    <h2 class="section-title">Moments From the Floor</h2>
+    <div class="section-divider"></div>
+
+    <div class="photo-grid">
+      <div class="photo-item" onclick="openLightbox('images/IMG_5496.jpg')">
+        <img src="images/IMG_5496.jpg" alt="Brian Green at the DJ booth">
+        <div class="overlay"><span>At the Booth</span></div>
+      </div>
+      <div class="photo-item" onclick="openLightbox('images/IMG_5492.jpg')">
+        <img src="images/IMG_5492.jpg" alt="Premier DJ Productions">
+        <div class="overlay"><span>Premier DJ</span></div>
+      </div>
+      <div class="photo-item" onclick="openLightbox('images/651009201_26929204626682993_6025446692392572533_n.jpg')">
+        <img src="images/651009201_26929204626682993_6025446692392572533_n.jpg" alt="Wedding dance floor">
+        <div class="overlay"><span>Wedding Reception</span></div>
+      </div>
+      <div class="photo-item" onclick="openLightbox('images/477572220_1178166607641748_7207880949519028184_n.jpg')">
+        <img src="images/477572220_1178166607641748_7207880949519028184_n.jpg" alt="Corporate Gala">
+        <div class="overlay"><span>Corporate Gala</span></div>
+      </div>
+      <div class="photo-item" onclick="openLightbox('images/IMG_5454.jpg')">
+        <img src="images/IMG_5454.jpg" alt="Private Event">
+        <div class="overlay"><span>Private Event</span></div>
+      </div>
+      <div class="photo-item" onclick="openLightbox('images/IMG_5455.jpg')">
+        <img src="images/IMG_5455.jpg" alt="Live Event">
+        <div class="overlay"><span>Live Event</span></div>
+      </div>
+    </div>
+
+    <!-- VIDEOS -->
+    <div class="section-label video-label">Videos</div>
+    <h2 class="section-title">See Brian in Action</h2>
+    <div class="section-divider"></div>
+
+    <div class="video-grid">
+      <div class="video-item">
+        <video controls preload="metadata">
+          <source src="video/promo.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <div class="video-caption">Premier DJ Productions — Live</div>
+      </div>
+      <div class="video-item">
+        <video controls preload="metadata">
+          <source src="video/promo2.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+        <div class="video-caption">Premier DJ Productions — Event Highlights</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <img id="lightbox-img" src="" alt="">
+  </div>
+
+  <footer>
+    <div class="footer-logo">Premier <span>DJ</span> Productions</div>
+    <p>© 2025 Premier DJ Productions · Brian Green · Wilmington, NC</p>
+    <a href="https://www.facebook.com/PremierDjProductions" target="_blank">Facebook</a>
+  </footer>
+
+  <script>
+    function openLightbox(src) {
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox').classList.add('active');
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+  </script>
+
+</body>
+</html>
