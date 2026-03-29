@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://premierdjproduction.com/sitemap.xml
