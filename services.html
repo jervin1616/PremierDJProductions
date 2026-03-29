@@ -7,73 +7,48 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --blue: #0a1f5c; --blue-mid: #1a3a8f; --blue-light: #2255cc;
-      --gold: #c9a84c; --white: #ffffff; --black: #050a14; --gray: #8a9ab5;
-    }
+    :root { --blue: #0a1f5c; --blue-mid: #1a3a8f; --blue-light: #2255cc; --gold: #c9a84c; --white: #ffffff; --black: #050a14; --gray: #8a9ab5; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    body { background: var(--black); color: var(--white); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+    body { background: var(--black); color: var(--white); font-family: 'Montserrat', sans-serif; }
 
     /* ── NAV ── */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
       display: flex; justify-content: space-between; align-items: center;
       padding: 18px 40px;
-      background: rgba(5,10,20,0.95); backdrop-filter: blur(10px);
+      background: rgba(5,10,20,0.97);
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-    .nav-logo {
-      font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem;
-      letter-spacing: 3px; color: var(--white); text-decoration: none; z-index: 201;
-    }
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 3px; color: var(--white); text-decoration: none; }
     .nav-logo span { color: var(--gold); }
-    .hamburger {
-      display: flex; flex-direction: column; justify-content: center;
-      gap: 6px; cursor: pointer; background: none; border: none; padding: 6px; z-index: 201;
-    }
-    .hamburger span {
-      display: block; width: 28px; height: 2px; background: var(--white);
-      border-radius: 2px; transition: transform 0.35s ease, opacity 0.35s ease; transform-origin: center;
-    }
-    .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-    .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-    nav ul {
-      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(5,10,20,0.98); flex-direction: column;
-      align-items: center; justify-content: center; gap: 48px; z-index: 200; list-style: none;
-    }
-    nav ul.open { display: flex; }
-    nav ul li a {
-      font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem;
-      letter-spacing: 8px; color: var(--gray); text-decoration: none;
-      text-transform: uppercase; transition: color 0.3s;
-    }
-    nav ul li a:hover { color: var(--white); }
-    nav ul li a.active { color: var(--gold); }
-    @media (max-width: 768px) {
-      nav { padding: 16px 20px; }
-      nav ul li a { font-size: 2.2rem; letter-spacing: 5px; }
-    }
+    #nav-toggle { display: none; }
+    .nav-toggle-label { display: flex; flex-direction: column; gap: 6px; cursor: pointer; padding: 6px; z-index: 10000; }
+    .nav-toggle-label span { display: block; width: 28px; height: 2px; background: var(--white); border-radius: 2px; transition: transform 0.35s ease, opacity 0.35s ease; transform-origin: center; }
+    #nav-toggle:checked ~ nav .nav-toggle-label span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    #nav-toggle:checked ~ nav .nav-toggle-label span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    #nav-toggle:checked ~ nav .nav-toggle-label span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+    .nav-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5,10,20,0.98); flex-direction: column; align-items: center; justify-content: center; gap: 48px; z-index: 9998; list-style: none; margin: 0; padding: 0; }
+    #nav-toggle:checked ~ nav .nav-menu { display: flex; }
+    .nav-menu li a { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; letter-spacing: 8px; color: var(--gray); text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+    .nav-menu li a:hover { color: var(--white); }
+    .nav-menu li a.active { color: var(--gold); }
+    @media (max-width: 768px) { nav { padding: 16px 20px; } .nav-menu li a { font-size: 2.2rem; letter-spacing: 5px; } }
 
-
-    .page-hero { min-height: 40vh; display: flex; align-items: flex-end; padding: 80px 60px 60px; background: linear-gradient(135deg, var(--black) 0%, var(--blue) 100%); position: relative; overflow: hidden; }
-    .page-hero::after { content: attr(data-title); position: absolute; right: -20px; bottom: -40px; font-family: 'Bebas Neue', sans-serif; font-size: 18rem; color: rgba(255,255,255,0.03); line-height: 1; pointer-events: none; }
+    .page-hero { min-height: 40vh; display: flex; align-items: flex-end; padding: 80px 60px 60px; background: linear-gradient(135deg, var(--black) 0%, var(--blue) 100%); position: relative; }
     .page-hero-content { position: relative; z-index: 1; }
     .page-hero .label { font-size: 0.7rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
     .page-hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 8vw, 7rem); letter-spacing: 4px; line-height: 1; }
     .section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
     .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 5vw, 4rem); letter-spacing: 3px; margin-bottom: 16px; }
     .section-divider { width: 50px; height: 3px; background: var(--blue-light); margin-bottom: 40px; }
-    footer { background: var(--black); border-top: 1px solid rgba(255,255,255,0.06); padding: 40px 60px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
-    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 3px; color: var(--white); }
-    .footer-logo span { color: var(--gold); }
-    footer p { color: var(--gray); font-size: 0.75rem; }
-    footer a { color: var(--gray); text-decoration: none; font-size: 0.75rem; transition: color 0.3s; }
-    footer a:hover { color: var(--white); }
-    @media (max-width: 900px) { .page-hero { padding: 80px 24px 40px; } footer { padding: 30px 24px; flex-direction: column; text-align: center; } }
-    @media (max-width: 600px) { .page-hero { padding: 80px 20px 40px; } }
+    .contact-strip { background: linear-gradient(135deg, var(--blue), var(--blue-mid)); padding: 80px 60px; text-align: center; }
+    .contact-strip h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 5vw, 4rem); letter-spacing: 3px; color: var(--white); margin-bottom: 12px; }
+    .contact-strip p { color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 36px; }
+    .contact-strip a.cta-btn { display: inline-block; background: var(--white); color: var(--blue); text-decoration: none; font-size: 0.8rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 16px 44px; border-radius: 2px; transition: background 0.3s, color 0.3s; }
+    .contact-strip a.cta-btn:hover { background: var(--gold); color: var(--black); }
+    @media (max-width: 900px) { .page-hero { padding: 80px 24px 40px; } }
+
     .services-section { padding: 100px 60px; max-width: 1200px; margin: 0 auto; }
     .service-block { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; margin-bottom: 100px; padding-bottom: 100px; border-bottom: 1px solid rgba(255,255,255,0.06); }
     .service-block:last-child { border-bottom: none; margin-bottom: 0; }
@@ -85,23 +60,28 @@
     .service-info .divider { width: 50px; height: 3px; background: var(--blue-light); margin-bottom: 24px; }
     .service-info p { color: var(--gray); font-size: 0.92rem; line-height: 1.9; margin-bottom: 16px; }
     .feature-list { list-style: none; margin-top: 24px; display: flex; flex-direction: column; gap: 10px; }
-    .feature-list li { color: var(--white); font-size: 0.85rem; font-weight: 600; letter-spacing: 1px; padding-left: 20px; position: relative; }
+    .feature-list li { color: var(--white); font-size: 0.85rem; font-weight: 600; padding-left: 20px; position: relative; }
     .feature-list li::before { content: '—'; position: absolute; left: 0; color: var(--blue-light); }
-    .contact-strip { background: linear-gradient(135deg, var(--blue), var(--blue-mid)); padding: 80px 60px; text-align: center; }
-    .contact-strip h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 5vw, 4rem); letter-spacing: 3px; color: var(--white); margin-bottom: 12px; }
-    .contact-strip p { color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 36px; }
-    .contact-strip a.cta-btn { display: inline-block; background: var(--white); color: var(--blue); text-decoration: none; font-size: 0.8rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 16px 44px; border-radius: 2px; transition: background 0.3s, color 0.3s; }
-    .contact-strip a.cta-btn:hover { background: var(--gold); color: var(--black); }
-    @media (max-width: 900px) { .services-section { padding: 60px 24px; } .service-block { grid-template-columns: 1fr; gap: 30px; direction: ltr; } .service-block img { height: 280px; } }
+
+    footer { background: var(--black); border-top: 1px solid rgba(255,255,255,0.06); padding: 40px 60px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 3px; color: var(--white); }
+    .footer-logo span { color: var(--gold); }
+    footer p { color: var(--gray); font-size: 0.75rem; }
+    footer a { color: var(--gray); text-decoration: none; font-size: 0.75rem; transition: color 0.3s; }
+    footer a:hover { color: var(--white); }
+    @media (max-width: 900px) { footer { padding: 30px 24px; flex-direction: column; text-align: center; } }
+
+    @media (max-width: 900px) { .services-section { padding: 60px 24px; } .service-block { grid-template-columns: 1fr; gap: 30px; direction: ltr; } .service-block img { height: 280px; } .contact-strip { padding: 60px 24px; } }
   </style>
 </head>
 <body>
+  <input type="checkbox" id="nav-toggle">
   <nav>
     <a href="index.html" class="nav-logo">Premier <span>DJ</span></a>
-    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <label class="nav-toggle-label" for="nav-toggle">
       <span></span><span></span><span></span>
-    </button>
-    <ul id="nav-menu">
+    </label>
+    <ul class="nav-menu">
       <li><a href="index.html">Home</a></li>
       <li><a href="services.html" class="active">Services</a></li>
       <li><a href="gallery.html">Gallery</a></li>
@@ -123,7 +103,7 @@
         <div class="icon">💍</div>
         <h2>Weddings</h2>
         <div class="divider"></div>
-        <p>Your wedding day is one of the most important days of your life — and the music should match. Brian works closely with couples to build the perfect playlist for every part of the day, from the ceremony processional to the last dance of the night.</p>
+        <p>Your wedding day is one of the most important days of your life — and the music should match. Brian works closely with couples to build the perfect playlist for every part of the day.</p>
         <p>With professional equipment and years of wedding experience, Brian keeps the energy exactly where it needs to be, all night long.</p>
         <ul class="feature-list">
           <li>Ceremony & reception coverage</li>
@@ -140,7 +120,7 @@
         <div class="icon">🏢</div>
         <h2>Corporate Events</h2>
         <div class="divider"></div>
-        <p>A great corporate event needs great entertainment. Brian brings professionalism and energy to company parties, galas, fundraisers, and award ceremonies — keeping your guests entertained and your event running on schedule.</p>
+        <p>A great corporate event needs great entertainment. Brian brings professionalism and energy to company parties, galas, fundraisers, and award ceremonies.</p>
         <p>From background ambiance during dinner to a full dance floor by the end of the night, Brian reads the room and delivers every time.</p>
         <ul class="feature-list">
           <li>Company parties & galas</li>
@@ -157,7 +137,7 @@
         <div class="icon">🎉</div>
         <h2>Private Parties</h2>
         <div class="divider"></div>
-        <p>Birthdays, reunions, cookouts, holiday parties — whatever the occasion, Brian shows up ready to make it a night nobody forgets. No party is too big or too small for Premier DJ Productions.</p>
+        <p>Birthdays, reunions, cookouts, holiday parties — whatever the occasion, Brian shows up ready to make it a night nobody forgets.</p>
         <p>You bring the guests, Brian brings the music. Guaranteed Big Fun, every single time.</p>
         <ul class="feature-list">
           <li>Birthday & milestone celebrations</li>
@@ -181,26 +161,5 @@
     <p>© 2025 Premier DJ Productions · Brian Green · Wilmington, NC</p>
     <a href="https://www.facebook.com/PremierDjProductions" target="_blank">Facebook</a>
   </footer>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const hamburger = document.getElementById("hamburger");
-      const navMenu = document.getElementById("nav-menu");
-      if (!hamburger || !navMenu) return;
-      hamburger.addEventListener("click", function () {
-        hamburger.classList.toggle("open");
-        navMenu.classList.toggle("open");
-        document.body.style.overflow = navMenu.classList.contains("open") ? "hidden" : "";
-      });
-      navMenu.querySelectorAll("a").forEach(function (link) {
-        link.addEventListener("click", function () {
-          hamburger.classList.remove("open");
-          navMenu.classList.remove("open");
-          document.body.style.overflow = "";
-        });
-      });
-    });
-  </script>
-
 </body>
 </html>
