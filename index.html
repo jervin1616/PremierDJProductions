@@ -7,57 +7,35 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --blue: #0a1f5c; --blue-mid: #1a3a8f; --blue-light: #2255cc;
-      --gold: #c9a84c; --white: #ffffff; --black: #050a14; --gray: #8a9ab5;
-    }
+    :root { --blue: #0a1f5c; --blue-mid: #1a3a8f; --blue-light: #2255cc; --gold: #c9a84c; --white: #ffffff; --black: #050a14; --gray: #8a9ab5; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-    body { background: var(--black); color: var(--white); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+    body { background: var(--black); color: var(--white); font-family: 'Montserrat', sans-serif; }
 
     /* ── NAV ── */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
       display: flex; justify-content: space-between; align-items: center;
       padding: 18px 40px;
-      background: rgba(5,10,20,0.95); backdrop-filter: blur(10px);
+      background: rgba(5,10,20,0.97);
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
-    .nav-logo {
-      font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem;
-      letter-spacing: 3px; color: var(--white); text-decoration: none; z-index: 201;
-    }
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 3px; color: var(--white); text-decoration: none; }
     .nav-logo span { color: var(--gold); }
-    .hamburger {
-      display: flex; flex-direction: column; justify-content: center;
-      gap: 6px; cursor: pointer; background: none; border: none; padding: 6px; z-index: 201;
-    }
-    .hamburger span {
-      display: block; width: 28px; height: 2px; background: var(--white);
-      border-radius: 2px; transition: transform 0.35s ease, opacity 0.35s ease; transform-origin: center;
-    }
-    .hamburger.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-    .hamburger.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-    nav ul {
-      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(5,10,20,0.98); flex-direction: column;
-      align-items: center; justify-content: center; gap: 48px; z-index: 200; list-style: none;
-    }
-    nav ul.open { display: flex; }
-    nav ul li a {
-      font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem;
-      letter-spacing: 8px; color: var(--gray); text-decoration: none;
-      text-transform: uppercase; transition: color 0.3s;
-    }
-    nav ul li a:hover { color: var(--white); }
-    nav ul li a.active { color: var(--gold); }
-    @media (max-width: 768px) {
-      nav { padding: 16px 20px; }
-      nav ul li a { font-size: 2.2rem; letter-spacing: 5px; }
-    }
+    #nav-toggle { display: none; }
+    .nav-toggle-label { display: flex; flex-direction: column; gap: 6px; cursor: pointer; padding: 6px; z-index: 10000; }
+    .nav-toggle-label span { display: block; width: 28px; height: 2px; background: var(--white); border-radius: 2px; transition: transform 0.35s ease, opacity 0.35s ease; transform-origin: center; }
+    #nav-toggle:checked ~ nav .nav-toggle-label span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    #nav-toggle:checked ~ nav .nav-toggle-label span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    #nav-toggle:checked ~ nav .nav-toggle-label span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+    .nav-menu { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(5,10,20,0.98); flex-direction: column; align-items: center; justify-content: center; gap: 48px; z-index: 9998; list-style: none; margin: 0; padding: 0; }
+    #nav-toggle:checked ~ nav .nav-menu { display: flex; }
+    .nav-menu li a { font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; letter-spacing: 8px; color: var(--gray); text-decoration: none; text-transform: uppercase; transition: color 0.3s; }
+    .nav-menu li a:hover { color: var(--white); }
+    .nav-menu li a.active { color: var(--gold); }
+    @media (max-width: 768px) { nav { padding: 16px 20px; } .nav-menu li a { font-size: 2.2rem; letter-spacing: 5px; } }
 
-    .hero { min-height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; text-align: center; }
+    .hero { min-height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; text-align: center; }
     .hero-bg { position: absolute; inset: 0; background-image: url('IMG_5496.jpg'); background-size: cover; background-position: center top; filter: brightness(0.3); animation: slowzoom 20s ease-in-out infinite alternate; }
     @keyframes slowzoom { from { transform: scale(1.05); } to { transform: scale(1.12); } }
     .hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(5,10,20,0.3), rgba(5,10,20,0.7)); }
@@ -71,7 +49,7 @@
     .hero-cta { margin-top: 44px; display: inline-block; background: var(--blue-light); color: var(--white); text-decoration: none; font-size: 0.8rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 16px 44px; border-radius: 2px; transition: background 0.3s, transform 0.2s; }
     .hero-cta:hover { background: var(--gold); color: var(--black); transform: translateY(-2px); }
     .scroll-hint { position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%); z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--gray); font-size: 0.65rem; letter-spacing: 3px; text-transform: uppercase; animation: bounce 2s infinite; }
-    @keyframes bounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+    @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
     .scroll-hint::after { content: ''; width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gray), transparent); }
     .banner { background: var(--blue-light); padding: 18px 0; overflow: hidden; white-space: nowrap; }
     .banner-track { display: inline-block; animation: marquee 20s linear infinite; font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 6px; color: var(--white); }
@@ -102,33 +80,27 @@
     .contact-strip p { color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 36px; }
     .contact-strip a.cta-btn { display: inline-block; background: var(--white); color: var(--blue); text-decoration: none; font-size: 0.8rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; padding: 16px 44px; border-radius: 2px; transition: background 0.3s, color 0.3s; }
     .contact-strip a.cta-btn:hover { background: var(--gold); color: var(--black); }
+
     footer { background: var(--black); border-top: 1px solid rgba(255,255,255,0.06); padding: 40px 60px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
     .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 3px; color: var(--white); }
     .footer-logo span { color: var(--gold); }
     footer p { color: var(--gray); font-size: 0.75rem; }
     footer a { color: var(--gray); text-decoration: none; font-size: 0.75rem; transition: color 0.3s; }
     footer a:hover { color: var(--white); }
-    @media (max-width: 900px) {
-      section { padding: 70px 24px; }
-      .about-grid { grid-template-columns: 1fr; gap: 40px; }
-      .services-grid { grid-template-columns: 1fr; }
-      .services-wrap { padding: 60px 24px; }
-      .about-stat { gap: 20px; }
-      footer { padding: 30px 24px; flex-direction: column; text-align: center; }
-      .contact-strip { padding: 60px 24px; }
-    }
-    @media (max-width: 600px) {
-      .about-img img { height: 380px; }
-    }
+    @media (max-width: 900px) { footer { padding: 30px 24px; flex-direction: column; text-align: center; } }
+
+    @media (max-width: 900px) { section { padding: 70px 24px; } .about-grid { grid-template-columns: 1fr; gap: 40px; } .services-grid { grid-template-columns: 1fr; } .services-wrap { padding: 60px 24px; } .about-stat { gap: 20px; } .contact-strip { padding: 60px 24px; } }
+    @media (max-width: 600px) { .about-img img { height: 380px; } }
   </style>
 </head>
 <body>
+  <input type="checkbox" id="nav-toggle">
   <nav>
     <a href="index.html" class="nav-logo">Premier <span>DJ</span></a>
-    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+    <label class="nav-toggle-label" for="nav-toggle">
       <span></span><span></span><span></span>
-    </button>
-    <ul id="nav-menu">
+    </label>
+    <ul class="nav-menu">
       <li><a href="index.html" class="active">Home</a></li>
       <li><a href="services.html">Services</a></li>
       <li><a href="gallery.html">Gallery</a></li>
@@ -200,26 +172,5 @@
     <p>© 2025 Premier DJ Productions · Brian Green · Wilmington, NC</p>
     <a href="https://www.facebook.com/PremierDjProductions" target="_blank">Facebook</a>
   </footer>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const hamburger = document.getElementById("hamburger");
-      const navMenu = document.getElementById("nav-menu");
-      if (!hamburger || !navMenu) return;
-      hamburger.addEventListener("click", function () {
-        hamburger.classList.toggle("open");
-        navMenu.classList.toggle("open");
-        document.body.style.overflow = navMenu.classList.contains("open") ? "hidden" : "";
-      });
-      navMenu.querySelectorAll("a").forEach(function (link) {
-        link.addEventListener("click", function () {
-          hamburger.classList.remove("open");
-          navMenu.classList.remove("open");
-          document.body.style.overflow = "";
-        });
-      });
-    });
-  </script>
-
 </body>
 </html>
